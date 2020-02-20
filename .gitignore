@@ -1,0 +1,39 @@
+# emacs
+*~
+\#*
+Notes.org
+
+# build directories
+[Bb]uild*/
+BUILD*/
+[Rr]elease*/
+RELEASE*/
+[Dd]ebug*/
+DEBUG*/
+
+# build artifacts
+*.d
+
+*.slo
+*.lo
+*.o
+*.obj
+
+*.gch
+*.pch
+
+*.so
+*.dylib
+*.dll
+
+*.mod
+*.smod
+
+*.lai
+*.la
+*.a
+*.lib
+
+*.exe
+*.out
+*.app
