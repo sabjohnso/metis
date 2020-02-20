@@ -14,7 +14,7 @@ add_subdirectory(include)
 add_subdirectory(libmetis)
 add_subdirectory(programs)
 
-install(EXPORT metis_exports
+install(EXPORT METIS_EXPORTS
   FILE metis-exports.cmake
   DESTINATION ${METIS_INSTALL_CONFDIR})
 

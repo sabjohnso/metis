@@ -3,6 +3,9 @@ project(GKlib VERSION 0.0.0)
 
 option(GKlib_BUILD_TESTING "Build the GKLib tests" ON)
 
+include(GNUInstallDirs)
+set(GKlib_INSTALL_CONFDIR ${CMAKE_INSTALL_LIBDIR}/cmake/gklib)
+
 set(GKlib_SOURCE_FILES
   b64.c
   blas.c
@@ -55,7 +58,7 @@ set(GKlib_HEADER_FILES
   ms_stdint.h)
 
 
-add_library(GKlib ${GKlib_sources})
+add_library(GKlib ${GKlib_SOURCE_FILES})
 target_link_libraries(GKlib PRIVATE m)
 target_include_directories(GKlib PUBLIC
   $<BUILD_INTERFACE:${GKlib_SOURCE_DIR}>
@@ -69,7 +72,7 @@ install(TARGETS GKlib
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
   
 install(FILES ${GKlib_HEADER_FILES}
-  DESTINATION ${CMAKE_INSTALL_CONFDIR})
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(EXPORT GKlib_EXPORTS
   NAMESPACE GKlib::
