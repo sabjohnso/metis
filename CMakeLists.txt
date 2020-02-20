@@ -1,27 +1,27 @@
-cmake_minimum_required(VERSION 2.8)
-project(METIS)
+cmake_minimum_required(VERSION 3.12)
+project(METIS VERSION 6.0.0)
 
-set(GKLIB_PATH "GKlib" CACHE PATH "path to GKlib")
-set(SHARED FALSE CACHE BOOL "build a shared library")
+option(METIS_BUILD_SHARED "Build shared libraries" ON)
+option(METIS_BUILD_TESTING "Build the metis tests" ON)
 
-if(MSVC)
-  set(METIS_INSTALL FALSE)
-else()
-  set(METIS_INSTALL TRUE)
-endif()
+list(APPEND CMAKE_MODULE_PATH ${METIS_SOURCE_DIR}/cmake)
+find_package(GKlib REQUIRED)
 
-# Configure libmetis library.
-if(SHARED)
-  set(METIS_LIBRARY_TYPE SHARED)
-else()
-  set(METIS_LIBRARY_TYPE STATIC)
-endif(SHARED)
+include(GNUInstallDirs)
+set(METIS_INSTALL_CONFDIR ${CMAKE_INSTALL_LIBDIR}/cmake/metis)
 
-include(${GKLIB_PATH}/GKlibSystem.cmake)
-# Add include directories.
-include_directories(${GKLIB_PATH})
-include_directories(include)
-# Recursively look for CMakeLists.txt in subdirs.
-add_subdirectory("include")
-add_subdirectory("libmetis")
-add_subdirectory("programs")
+add_subdirectory(include)
+add_subdirectory(libmetis)
+add_subdirectory(programs)
+
+install(EXPORT metis_exports
+  FILE metis-exports.cmake
+  DESTINATION ${METIS_INSTALL_CONFDIR})
+
+configure_file(metis-config.cmake.in metis-config.cmake @ONLY)
+install(FILES ${METIS_BINARY_DIR}/metis-config.cmake
+  DESTINATION ${METIS_INSTALL_CONFDIR})
+
+
+
+

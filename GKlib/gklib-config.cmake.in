@@ -1,0 +1,4 @@
+if(NOT TARGET GKlib::GKlib)
+  list(INSERT CMAKE_MODULE_PATH 0 @CMAKE_INSTALL_PREFIX@/@GKlib_INSTALL_CONFDIR@)
+  include(gklib-exports)
+endif()
