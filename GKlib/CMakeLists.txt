@@ -63,6 +63,7 @@ target_link_libraries(GKlib PRIVATE m)
 target_include_directories(GKlib PUBLIC
   $<BUILD_INTERFACE:${GKlib_SOURCE_DIR}>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_compile_definitions(GKlib PRIVATE _XOPEN_SOURCE=600)
 
 add_library(GKlib::GKlib ALIAS GKlib)
 
