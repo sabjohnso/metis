@@ -87,7 +87,7 @@ GK_MKALLOC_PROTO(gk_skv,   gk_skv_t)
 GK_MKALLOC_PROTO(gk_idxkv, gk_idxkv_t)
 
 void   gk_AllocMatrix(void ***, size_t, size_t , size_t);
-void   gk_FreeMatrix(void ***, size_t, size_t);
+void   gk_FreeMatrix(void ***, size_t);
 int    gk_malloc_init();
 void   gk_malloc_cleanup(int showstats);
 void  *gk_malloc(size_t nbytes, char *msg);

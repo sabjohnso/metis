@@ -5,7 +5,10 @@ option(METIS_BUILD_SHARED "Build shared libraries" ON)
 option(METIS_BUILD_TESTING "Build the metis tests" ON)
 
 list(APPEND CMAKE_MODULE_PATH ${METIS_SOURCE_DIR}/cmake)
+find_package(OpenMP)
 find_package(GKlib REQUIRED)
+
+
 
 include(GNUInstallDirs)
 set(METIS_INSTALL_CONFDIR ${CMAKE_INSTALL_LIBDIR}/cmake/metis)

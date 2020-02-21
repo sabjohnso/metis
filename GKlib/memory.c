@@ -60,7 +60,7 @@ void gk_AllocMatrix(void ***r_matrix, size_t elmlen, size_t ndim1, size_t ndim2)
   if ((matrix = (void **)gk_malloc(ndim1*sizeof(void *), "gk_AllocMatrix: matrix")) == NULL)
     return;
 
-  for (i=0; i<ndim1; i++) {
+  for (i=0; i< (ssize_t)ndim1; i++) {
     if ((matrix[i] = (void *)gk_malloc(ndim2*elmlen, "gk_AllocMatrix: matrix[i]")) == NULL) {
       for (j=0; j<i; j++) 
         gk_free((void **)&matrix[j], LTERM);
@@ -76,7 +76,7 @@ void gk_AllocMatrix(void ***r_matrix, size_t elmlen, size_t ndim1, size_t ndim2)
 /*! This function frees a two-dimensional matrix.
   */
 /*************************************************************************/
-void gk_FreeMatrix(void ***r_matrix, size_t ndim1, size_t ndim2)
+void gk_FreeMatrix(void ***r_matrix, size_t ndim1)
 {
   gk_idx_t i;
   void **matrix;
@@ -84,7 +84,7 @@ void gk_FreeMatrix(void ***r_matrix, size_t ndim1, size_t ndim2)
   if ((matrix = *r_matrix) == NULL)
     return;
 
-  for (i=0; i<ndim1; i++) 
+  for (i=0; i< (ssize_t)ndim1; i++) 
     gk_free((void **)&matrix[i], LTERM);
 
   gk_free((void **)r_matrix, LTERM); 

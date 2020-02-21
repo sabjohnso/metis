@@ -73,11 +73,11 @@ static gk_StringMap_t iptype_options[] = {
  {NULL,                 0}
 };
 
-static gk_StringMap_t rtype_options[] = {
- {"fm",                METIS_RTYPE_FM},
- {"greedy",            METIS_RTYPE_GREEDY},
- {NULL,                 0}
-};
+/* static gk_StringMap_t rtype_options[] = { */
+/*  {"fm",                METIS_RTYPE_FM}, */
+/*  {"greedy",            METIS_RTYPE_GREEDY}, */
+/*  {NULL,                 0} */
+/* }; */
 
 
 
@@ -216,7 +216,7 @@ static char shorthelpstr[][100] = {
 **************************************************************************/
 params_t *parse_cmdline(int argc, char *argv[])
 {
-  int i, j, k;
+  int i;
   int c, option_index;
   params_t *params;
 

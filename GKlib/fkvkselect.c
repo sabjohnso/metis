@@ -23,7 +23,7 @@ int gk_dfkvkselect(size_t n, int topk, gk_fkv_t *cand)
   gk_fkv_t stmp;
   float pivot;
 
-  if (n <= topk)
+  if ((ssize_t)n <= topk)
     return n; /* return if the array has fewer elements than we want */
 
   for (lo=0, hi=n-1; lo < hi;) {
@@ -87,7 +87,7 @@ int gk_ifkvkselect(size_t n, int topk, gk_fkv_t *cand)
   gk_fkv_t stmp;
   float pivot;
 
-  if (n <= topk)
+  if ((ssize_t)n <= topk)
     return n; /* return if the array has fewer elements than we want */
 
   for (lo=0, hi=n-1; lo < hi;) {

@@ -43,15 +43,15 @@ char *gk_strchr_replace(char *str, char *fromlist, char *tolist)
   fromlen = strlen(fromlist);
   tolen   = strlen(tolist);
 
-  for (i=j=0; i<len; i++) {
-    for (k=0; k<fromlen; k++) {
+  for (i=j=0; i < (ssize_t)len; i++) {
+    for (k=0; k < (ssize_t)fromlen; k++) {
       if (str[i] == fromlist[k]) {
-        if (k < tolen) 
+        if (k < (ssize_t)tolen) 
           str[j++] = tolist[k];
         break;
       }
     }
-    if (k == fromlen)
+    if (k == (ssize_t)fromlen)
       str[j++] = str[i];
   }
   str[j] = '\0';
@@ -150,7 +150,7 @@ int gk_strstr_replace(char *str, char *pattern, char *replacement, char *options
 
       /* Copy the left unmatched portion of the string */
       if (matches[0].rm_so > 0) {
-        if (nlen-noffset < matches[0].rm_so) {
+        if ((ssize_t)(nlen-noffset) < matches[0].rm_so) {
           nlen += matches[0].rm_so - (nlen-noffset);
           *new_str = (char *)gk_realloc(*new_str, (nlen+1)*sizeof(char), "gk_strstr_replace: new_str");
         }
@@ -159,10 +159,10 @@ int gk_strstr_replace(char *str, char *pattern, char *replacement, char *options
       }
 
       /* Go and append the replacement string */
-      for (i=0; i<rlen; i++) {
+      for (i=0; i < (ssize_t)rlen; i++) {
         switch (replacement[i]) {
           case '\\':
-            if (i+1 < rlen) {
+            if (i+1 < (ssize_t)rlen) {
               if (nlen-noffset < 1) {
                 nlen += nlen + 1;
                 *new_str = (char *)gk_realloc(*new_str, (nlen+1)*sizeof(char), "gk_strstr_replace: new_str");
@@ -178,7 +178,7 @@ int gk_strstr_replace(char *str, char *pattern, char *replacement, char *options
             break;
 
           case '$':
-            if (i+1 < rlen) {
+            if (i+1 < (ssize_t)rlen) {
               j = (int)(replacement[++i] - '0');
               if (j < 0 || j > 9) {
                 gk_free((void **)new_str, LTERM);
@@ -187,7 +187,7 @@ int gk_strstr_replace(char *str, char *pattern, char *replacement, char *options
                 return 0;
               }
 
-              if (nlen-noffset < matches[j].rm_eo-matches[j].rm_so) {
+              if ((ssize_t)(nlen-noffset) < matches[j].rm_eo-matches[j].rm_so) {
                 nlen += nlen + (matches[j].rm_eo-matches[j].rm_so);
                 *new_str = (char *)gk_realloc(*new_str, (nlen+1)*sizeof(char), "gk_strstr_replace: new_str");
               }
@@ -259,11 +259,11 @@ char *gk_strtprune(char *str, char *rmlist)
   len = strlen(rmlist);
 
   for (i=strlen(str)-1; i>=0; i--) {
-    for (j=0; j<len; j++) {
+    for (j=0; j < (ssize_t)len; j++) {
       if (str[i] == rmlist[j])
         break;
     }
-    if (j == len)
+    if (j == (ssize_t)len)
       break;
   }
 
@@ -296,11 +296,11 @@ char *gk_strhprune(char *str, char *rmlist)
   len = strlen(rmlist);
 
   for (i=0; str[i]; i++) {
-    for (j=0; j<len; j++) {
+    for (j=0; j< (ssize_t)len; j++) {
       if (str[i] == rmlist[j])
         break;
     }
-    if (j == len)
+    if (j == (ssize_t)len)
       break;
   }
 

@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
     }
     gk_fclose(fpout);
 
-    gk_fFreeMatrix(&prs, params->ntvs, mat->nrows);
+    gk_fFreeMatrix(&prs, params->ntvs);
   }
   else if (params->ppr != -1) {
     /* compute the personalized pr from the specified vertex */

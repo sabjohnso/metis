@@ -205,7 +205,7 @@ void gk_mcorePop(gk_mcore_t *mcore)
         break; 
 
       case GK_MOPT_CORE: /* core free */
-        if (mcore->corecpos < mcore->mops[mcore->cmop].nbytes)
+        if ((ssize_t)(mcore->corecpos) < mcore->mops[mcore->cmop].nbytes)
           errexit("Internal Error: wspace's core is about to be over-freed [%zu, %zu, %zd]\n",
               mcore->coresize, mcore->corecpos, mcore->mops[mcore->cmop].nbytes);
 

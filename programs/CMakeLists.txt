@@ -1,14 +1,14 @@
 
-add_executable(gpmetis gpmetis.c cmdline_gpmetis.c io.c stat.c)
+add_executable(gpmetis gpmetis.c cmdline_gpmetis.c io.c stat.c defs.c)
 target_link_libraries(gpmetis PRIVATE METIS::metis GKlib::GKlib)
 
-add_executable(ndmetis ndmetis.c cmdline_ndmetis.c io.c smbfactor.c)
+add_executable(ndmetis ndmetis.c cmdline_ndmetis.c io.c smbfactor.c defs.c)
 target_link_libraries(ndmetis PRIVATE METIS::metis GKlib::GKlib)
 
-add_executable(mpmetis mpmetis.c cmdline_mpmetis.c io.c stat.c)
+add_executable(mpmetis mpmetis.c cmdline_mpmetis.c io.c stat.c defs.c)
 target_link_libraries(mpmetis PRIVATE METIS::metis GKlib::GKlib)
 
-add_executable(m2gmetis m2gmetis.c cmdline_m2gmetis.c io.c)
+add_executable(m2gmetis m2gmetis.c cmdline_m2gmetis.c io.c defs.c)
 target_link_libraries(m2gmetis PRIVATE METIS::metis GKlib::GKlib)
 
 add_executable(graphchk graphchk.c io.c)

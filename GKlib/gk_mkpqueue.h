@@ -323,7 +323,7 @@ VT FPRFX ## SeeTopVal(PQT *queue)\
 /**************************************************************************/\
 KT FPRFX ## SeeTopKey(PQT *queue)\
 {\
-  return (queue->nnodes == 0 ? KMAX : queue->heap[0].key);\
+  return (queue->nnodes == 0 ? (ssize_t)KMAX : queue->heap[0].key);    \
 }\
 \
 \
@@ -383,9 +383,7 @@ int FPRFX ## CheckHeap(PQT *queue)\
   gk_idx_t i, j;\
   size_t nnodes;\
   gk_idx_t *locator;\
-  KVT *heap;\
 \
-  heap    = queue->heap;\
   locator = queue->locator;\
   nnodes  = queue->nnodes;\
 \
@@ -393,11 +391,11 @@ int FPRFX ## CheckHeap(PQT *queue)\
     return 1;\
 \
   ASSERT(locator[heap[0].val] == 0);\
-  for (i=1; i<nnodes; i++) {\
+  for (i=1; i < (ssize_t)nnodes; i++) {         \
     ASSERT(locator[heap[i].val] == i);\
     ASSERT(!KEY_LT(heap[i].key, heap[(i-1)/2].key));\
   }\
-  for (i=1; i<nnodes; i++)\
+  for (i=1; i< (ssize_t)nnodes; i++)            \
     ASSERT(!KEY_LT(heap[i].key, heap[0].key));\
 \
   for (j=i=0; i<queue->maxnodes; i++) {\

@@ -23,11 +23,11 @@ void gk_RandomPermute(size_t n, int *p, int flag)
   int tmp;
 
   if (flag == 1) {
-    for (i=0; i<n; i++)
+    for (i=0; i < (ssize_t)n; i++)
       p[i] = i;
   }
 
-  for (i=0; i<n/2; i++) {
+  for (i=0; i< (ssize_t)n/2; i++) {
     v = RandomInRange(n);
     u = RandomInRange(n);
     gk_SWAP(p[v], p[u], tmp);
@@ -65,12 +65,12 @@ void gk_array2csr(size_t n, size_t range, int *array, int *ptr, int *ind)
 
   gk_iset(range+1, 0, ptr);
 
-  for (i=0; i<n; i++) 
+  for (i=0; i< (ssize_t)n; i++) 
     ptr[array[i]]++;
 
   /* Compute the ptr, ind structure */
   MAKECSR(i, range, ptr);
-  for (i=0; i<n; i++)
+  for (i=0; i < (ssize_t)n; i++)
     ind[ptr[array[i]]++] = i;
   SHIFTCSR(i, range, ptr);
 }

@@ -22,8 +22,6 @@
 int main(int argc, char *argv[])
 {
   graph_t *graph, *fgraph;
-  char filename[256];
-  idx_t wgtflag;
   params_t params;
 
   if (argc != 2 && argc != 3) {

@@ -21,7 +21,7 @@
 /*************************************************************************/
 graph_t *ReadGraph(params_t *params)
 {
-  idx_t i, j, k, l, fmt, ncon, nfields, readew, readvw, readvs, edge, ewgt;
+  idx_t i, k, l, fmt, ncon, nfields, readew, readvw, readvs, edge, ewgt;
   idx_t *xadj, *adjncy, *vwgt, *adjwgt, *vsize;
   char *line=NULL, fmtstr[256], *curstr, *newstr;
   size_t lnlen=0;
@@ -177,7 +177,7 @@ graph_t *ReadGraph(params_t *params)
 /*************************************************************************/
 mesh_t *ReadMesh(params_t *params)
 {
-  idx_t i, j, k, l, nfields, ncon, node;
+  idx_t i, k, l, nfields, ncon, node;
   idx_t *eptr, *eind, *ewgt;
   size_t nlines, ntokens;
   char *line=NULL, *curstr, *newstr;

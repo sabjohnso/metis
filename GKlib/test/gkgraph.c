@@ -96,7 +96,7 @@ params_t *parse_cmdline(int argc, char *argv[]);
 /**************************************************************************/
 int main(int argc, char *argv[])
 {
-  ssize_t i, j, v;
+  ssize_t i, v;
   params_t *params;
   gk_graph_t *graph, *pgraph;
   int32_t *perm;

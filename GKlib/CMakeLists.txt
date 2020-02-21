@@ -3,6 +3,8 @@ project(GKlib VERSION 0.0.0)
 
 option(GKlib_BUILD_TESTING "Build the GKLib tests" ON)
 
+find_package(OpenMP REQUIRED)
+
 include(GNUInstallDirs)
 set(GKlib_INSTALL_CONFDIR ${CMAKE_INSTALL_LIBDIR}/cmake/gklib)
 
@@ -63,6 +65,7 @@ target_link_libraries(GKlib PRIVATE m)
 target_include_directories(GKlib PUBLIC
   $<BUILD_INTERFACE:${GKlib_SOURCE_DIR}>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_link_libraries(GKlib PRIVATE OpenMP::OpenMP_C)
 target_compile_definitions(GKlib PRIVATE _XOPEN_SOURCE=600)
 
 add_library(GKlib::GKlib ALIAS GKlib)
@@ -85,3 +88,7 @@ install(FILES ${GKlib_BINARY_DIR}/gklib-config.cmake
   DESTINATION ${GKlib_INSTALL_CONFDIR})
   
   
+if(GKlib_BUILD_TESTING)
+  enable_testing()
+  add_subdirectory(test)
+endif()

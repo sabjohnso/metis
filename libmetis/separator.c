@@ -20,7 +20,7 @@
 **************************************************************************/
 void ConstructSeparator(ctrl_t *ctrl, graph_t *graph)
 {
-  idx_t i, j, k, nvtxs, nbnd;
+  idx_t i, j, nvtxs, nbnd;
   idx_t *xadj, *where, *bndind;
 
   WCOREPUSH;
@@ -70,7 +70,7 @@ void ConstructMinCoverSeparator(ctrl_t *ctrl, graph_t *graph)
 {
   idx_t i, ii, j, jj, k, l, nvtxs, nbnd, bnvtxs[3], bnedges[2], csize;
   idx_t *xadj, *adjncy, *bxadj, *badjncy;
-  idx_t *where, *bndind, *bndptr, *vmap, *ivmap, *cover;
+  idx_t *where, *bndind, *vmap, *ivmap, *cover;
 
   WCOREPUSH;
 
@@ -80,7 +80,6 @@ void ConstructMinCoverSeparator(ctrl_t *ctrl, graph_t *graph)
 
   nbnd   = graph->nbnd;
   bndind = graph->bndind;
-  bndptr = graph->bndptr;
   where  = graph->where;
 
   vmap  = iwspacemalloc(ctrl, nvtxs);

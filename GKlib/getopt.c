@@ -40,7 +40,7 @@ So, do read the documentation here.
 /* Local function prototypes */
 /*************************************************************************/
 static void exchange (char **);
-static char *gk_getopt_initialize (int, char **, char *);
+static char *gk_getopt_initialize (char *);
 static int gk_getopt_internal(int argc, char **argv, char *optstring, 
         struct gk_option *longopts, int *longind, int long_only);
 
@@ -242,7 +242,7 @@ static void exchange (char **argv)
 Initialize the internal data when the first call is made.  
 */
 /*************************************************************************/
-static char *gk_getopt_initialize (int argc, char **argv, char *optstring)
+static char *gk_getopt_initialize (char *optstring)
 {
   /* Start processing options with ARGV-element 1 (since ARGV-element 0
      is the program name); the sequence of previously skipped
@@ -342,8 +342,8 @@ static int gk_getopt_internal(int argc, char **argv, char *optstring,
   if (gk_optind == 0 || !gk_getopt_initialized) {
     if (gk_optind == 0)
       gk_optind = 1;	/* Don't scan ARGV[0], the program name.  */
-      optstring = gk_getopt_initialize (argc, argv, optstring);
-      gk_getopt_initialized = 1;
+    optstring = gk_getopt_initialize (optstring);
+    gk_getopt_initialized = 1;
     }
 
   /* Test whether ARGV[gk_optind] points to a non-option argument.
@@ -700,7 +700,7 @@ static int gk_getopt_internal(int argc, char **argv, char *optstring,
 	else
 	  /* We already incremented `gk_optind' once; increment it again when taking next ARGV-elt as argument.  */
 	  gk_optarg = argv[gk_optind++];
-	  nextchar = NULL;
+        nextchar = NULL;
       }
     }
     return c;

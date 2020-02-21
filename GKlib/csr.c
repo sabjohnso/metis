@@ -372,14 +372,14 @@ gk_csr_t *gk_csr_Read(char *filename, int format, int readvals, int numbering)
     if (fread(&(mat->ncols), sizeof(int32_t), 1, fpin) != 1)
       gk_errexit(SIGERR, "Failed to read the ncols from file %s!\n", filename);
     mat->rowptr = gk_zmalloc(mat->nrows+1, "gk_csr_Read: rowptr");
-    if (fread(mat->rowptr, sizeof(ssize_t), mat->nrows+1, fpin) != mat->nrows+1)
+    if ((ssize_t)fread(mat->rowptr, sizeof(ssize_t), mat->nrows+1, fpin) != mat->nrows+1)
       gk_errexit(SIGERR, "Failed to read the rowptr from file %s!\n", filename);
     mat->rowind = gk_imalloc(mat->rowptr[mat->nrows], "gk_csr_Read: rowind");
-    if (fread(mat->rowind, sizeof(int32_t), mat->rowptr[mat->nrows], fpin) != mat->rowptr[mat->nrows])
+    if ((ssize_t)fread(mat->rowind, sizeof(int32_t), mat->rowptr[mat->nrows], fpin) != mat->rowptr[mat->nrows])
       gk_errexit(SIGERR, "Failed to read the rowind from file %s!\n", filename);
     if (readvals == 1) {
       mat->rowval = gk_fmalloc(mat->rowptr[mat->nrows], "gk_csr_Read: rowval");
-      if (fread(mat->rowval, sizeof(float), mat->rowptr[mat->nrows], fpin) != mat->rowptr[mat->nrows])
+      if ((ssize_t)fread(mat->rowval, sizeof(float), mat->rowptr[mat->nrows], fpin) != mat->rowptr[mat->nrows])
         gk_errexit(SIGERR, "Failed to read the rowval from file %s!\n", filename);
     }
 
@@ -396,14 +396,14 @@ gk_csr_t *gk_csr_Read(char *filename, int format, int readvals, int numbering)
     if (fread(&(mat->ncols), sizeof(int32_t), 1, fpin) != 1)
       gk_errexit(SIGERR, "Failed to read the ncols from file %s!\n", filename);
     mat->colptr = gk_zmalloc(mat->ncols+1, "gk_csr_Read: colptr");
-    if (fread(mat->colptr, sizeof(ssize_t), mat->ncols+1, fpin) != mat->ncols+1)
+    if ((ssize_t)fread(mat->colptr, sizeof(ssize_t), mat->ncols+1, fpin) != mat->ncols+1)
       gk_errexit(SIGERR, "Failed to read the colptr from file %s!\n", filename);
     mat->colind = gk_imalloc(mat->colptr[mat->ncols], "gk_csr_Read: colind");
-    if (fread(mat->colind, sizeof(int32_t), mat->colptr[mat->ncols], fpin) != mat->colptr[mat->ncols])
+    if ((ssize_t)fread(mat->colind, sizeof(int32_t), mat->colptr[mat->ncols], fpin) != mat->colptr[mat->ncols])
       gk_errexit(SIGERR, "Failed to read the colind from file %s!\n", filename);
     if (readvals) {
       mat->colval = gk_fmalloc(mat->colptr[mat->ncols], "gk_csr_Read: colval");
-      if (fread(mat->colval, sizeof(float), mat->colptr[mat->ncols], fpin) != mat->colptr[mat->ncols])
+      if ((ssize_t)fread(mat->colval, sizeof(float), mat->colptr[mat->ncols], fpin) != mat->colptr[mat->ncols])
         gk_errexit(SIGERR, "Failed to read the colval from file %s!\n", filename);
     }
 
@@ -484,7 +484,7 @@ gk_csr_t *gk_csr_Read(char *filename, int format, int readvals, int numbering)
    * Read the sparse matrix file
    *---------------------------------------------------------------------*/
   numbering = (numbering ? - 1 : 0);
-  for (ncols=0, rowptr[0]=0, k=0, i=0; i<nrows; i++) {
+  for (ncols=0, rowptr[0]=0, k=0, i=0; i < (ssize_t)nrows; i++) {
     do {
       if (gk_getline(&line, &lnlen, fpin) == -1)
         gk_errexit(SIGERR, "Premature end of input file: file while reading row %d\n", i);
@@ -509,7 +509,7 @@ gk_csr_t *gk_csr_Read(char *filename, int format, int readvals, int numbering)
 
     /* Read vertex weights */
     if (readwgts) {
-      for (l=0; l<ncon; l++) {
+      for (l=0; l < (ssize_t)ncon; l++) {
 #ifdef __MSC__
         mat->rwgts[i*ncon+l] = (float)strtod(head, &tail);
 #else
@@ -535,7 +535,7 @@ gk_csr_t *gk_csr_Read(char *filename, int format, int readvals, int numbering)
       if ((rowind[k] = ival + numbering) < 0)
         gk_errexit(SIGERR, "Error: Invalid column number %d at row %zd.\n", ival, i);
 
-      ncols = gk_max(rowind[k], ncols);
+      ncols = gk_max((ssize_t)rowind[k], (ssize_t)ncols);
 
       if (readvals == 1) {
 #ifdef __MSC__
@@ -562,7 +562,7 @@ gk_csr_t *gk_csr_Read(char *filename, int format, int readvals, int numbering)
     mat->ncols = ncols+1;
   }
 
-  if (k != nnz)
+  if (k != (ssize_t)nnz)
     gk_errexit(SIGERR, "gk_csr_Read: Something wrong with the number of nonzeros in "
                        "the input file. NNZ=%zd, ActualNNZ=%zd.\n", nnz, k);
 
@@ -1343,8 +1343,8 @@ void gk_csr_Normalize(gk_csr_t *mat, int what, int norm)
   	  sum=1.0/sqrt(sum); 
   	else if (norm == 1)
   	  sum=1.0/sum; 
-          for (j=ptr[i]; j<ptr[i+1]; j++)
-            val[j] *= sum;
+        for (j=ptr[i]; j<ptr[i+1]; j++)
+          val[j] *= sum;
   	
         }
       }
@@ -1370,8 +1370,8 @@ void gk_csr_Normalize(gk_csr_t *mat, int what, int norm)
   	  sum=1.0/sqrt(sum); 
   	else if (norm == 1)
   	  sum=1.0/sum; 
-          for (j=ptr[i]; j<ptr[i+1]; j++)
-            val[j] *= sum;
+        for (j=ptr[i]; j<ptr[i+1]; j++)
+          val[j] *= sum;
         }
       }
     }

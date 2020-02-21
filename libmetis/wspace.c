@@ -93,8 +93,8 @@ void FreeWorkSpace(ctrl_t *ctrl)
   ctrl->nbrpoolcpos = 0;
 
   if (ctrl->minconn) {
-    iFreeMatrix(&(ctrl->adids),  ctrl->nparts, INIT_MAXNAD);
-    iFreeMatrix(&(ctrl->adwgts), ctrl->nparts, INIT_MAXNAD);
+    iFreeMatrix(&(ctrl->adids),  ctrl->nparts);
+    iFreeMatrix(&(ctrl->adwgts), ctrl->nparts);
 
     gk_free((void **)&ctrl->pvec1, &ctrl->pvec2, 
         &ctrl->maxnads, &ctrl->nads, LTERM);

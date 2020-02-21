@@ -222,16 +222,16 @@
 /*************************************************************************/
 #define SelectSafeTargetSubdomains(myrinfo, mynbrs, nads, adids, maxndoms, safetos, vtmp) \
   do { \
-    idx_t j, k, l, nadd, to; \
-    for (j=0; j<myrinfo->nnbrs; j++) { \
-      safetos[to = mynbrs[j].pid] = 0; \
+    idx_t j_, k, l, nadd, to; \
+    for (j_=0; j_<myrinfo->nnbrs; j_++) { \
+      safetos[to = mynbrs[j_].pid] = 0; \
       \
       /* uncompress the connectivity info for the 'to' subdomain */ \
       for (k=0; k<nads[to]; k++) \
         vtmp[adids[to][k]] = 1; \
       \
       for (nadd=0, k=0; k<myrinfo->nnbrs; k++) { \
-        if (k == j) \
+        if (k == j_) \
           continue; \
         \
         l = mynbrs[k].pid; \

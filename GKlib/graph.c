@@ -158,7 +158,7 @@ gk_graph_t *gk_graph_Read(char *filename, int format, int isfewgts,
    * Read the sparse graph file
    *---------------------------------------------------------------------*/
   numbering = (numbering ? - 1 : 0);
-  for (graph->xadj[0]=0, k=0, i=0; i<nvtxs; i++) {
+  for (graph->xadj[0]=0, k=0, i=0; i < (ssize_t)nvtxs; i++) {
     do {
       if (gk_getline(&line, &lnlen, fpin) == -1)
         gk_errexit(SIGERR, "Pregraphure end of input file: file while reading row %d\n", i);
@@ -192,7 +192,7 @@ gk_graph_t *gk_graph_Read(char *filename, int format, int isfewgts,
 
     /* Read vertex weights */
     if (readwgts) {
-      for (l=0; l<ncon; l++) {
+      for (l=0; l< (ssize_t)ncon; l++) {
         if (isfvwgts) {
 #ifdef __MSC__
           graph->fvwgts[i*ncon+l] = (float)strtod(head, &tail);
@@ -254,7 +254,7 @@ gk_graph_t *gk_graph_Read(char *filename, int format, int isfewgts,
     graph->xadj[i+1] = k;
   }
 
-  if (k != nedges)
+  if (k != (ssize_t)nedges)
     gk_errexit(SIGERR, "gk_graph_Read: Something wrong with the number of edges in "
                        "the input file. nedges=%zd, Actualnedges=%zd.\n", nedges, k);
 
@@ -460,7 +460,7 @@ gk_graph_t *gk_graph_ExtractSubgraph(gk_graph_t *graph, int vstart, int nvtxs)
 gk_graph_t *gk_graph_Reorder(gk_graph_t *graph, int32_t *perm, int32_t *iperm)
 {
   ssize_t j, jj, *xadj;
-  int i, k, u, v, nvtxs;
+  int i, u, v, nvtxs;
   int freeperm=0, freeiperm=0;
   int32_t *adjncy;
   gk_graph_t *ngraph;
@@ -571,10 +571,10 @@ gk_graph_t *gk_graph_Reorder(gk_graph_t *graph, int32_t *perm, int32_t *iperm)
 /*************************************************************************/
 int gk_graph_FindComponents(gk_graph_t *graph, int32_t *cptr, int32_t *cind)
 {
-  ssize_t i, ii, j, jj, k, nvtxs, first, last, ntodo, ncmps;
+  ssize_t i, j, k, nvtxs, first, last, ntodo, ncmps;
   ssize_t *xadj;
   int32_t *adjncy, *pos, *todo;
-  int32_t mustfree_ccsr=0, mustfree_where=0;
+  int32_t mustfree_ccsr=0;
 
   nvtxs  = graph->nvtxs;
   xadj   = graph->xadj;
@@ -887,8 +887,8 @@ void gk_graph_ComputeBestFOrdering0(gk_graph_t *graph, int v, int type,
 void gk_graph_ComputeBestFOrdering(gk_graph_t *graph, int v, int type, 
           int32_t **r_perm, int32_t **r_iperm)
 {
-  ssize_t j, jj, *xadj;
-  int i, k, u, nvtxs, nopen, ntodo;
+  ssize_t j, *xadj;
+  int i, u, nvtxs, nopen, ntodo;
   int32_t *adjncy, *perm, *degrees, *wdegrees, *sod, *level, *ot, *pos;
   gk_i32pq_t *queue;
 

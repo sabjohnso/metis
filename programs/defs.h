@@ -41,19 +41,19 @@
 
 
 /* The text labels for PTypes */
-static char ptypenames[][15] = {"rb", "kway"};
+extern char ptypenames[][15];
 
 /* The text labels for ObjTypes */
-static char objtypenames[][15] = {"cut", "vol", "node"};
+extern char objtypenames[][15];
 
 /* The text labels for CTypes */
-static char ctypenames[][15] = {"rm", "shem"};
+extern char ctypenames[][15];
 
 /* The text labels for RTypes */
-static char rtypenames[][15] = {"fm", "greedy", "2sided", "1sided"};
+extern char rtypenames[][15];
 
 /* The text labels for ITypes */
-static char iptypenames[][15] = {"grow", "random", "edge", "node", "metisrb"};
+extern char iptypenames[][15];
 
 /* The text labels for GTypes */
-static char gtypenames[][15] = {"dual", "nodal"};
+extern char gtypenames[][15];

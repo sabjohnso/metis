@@ -87,7 +87,7 @@ gk_idx_t gk_getline(char **lineptr, size_t *n, FILE *stream)
   }
   (*lineptr)[i] = '\0';
 
-  return (i == 0 ? -1 : i);
+  return (i == 0 ? (ssize_t)-1 : (ssize_t)i);
 #endif
 }
 
@@ -230,7 +230,7 @@ int32_t *gk_i32readfilebin(char *fname, ssize_t *r_nelmnts)
 
   fpin = gk_fopen(fname, "rb", "gk_i32readfilebin");
   
-  if (fread(array, sizeof(int32_t), nelmnts, fpin) != nelmnts) {
+  if ((ssize_t)fread(array, sizeof(int32_t), nelmnts, fpin) != nelmnts) {
     gk_errexit(SIGERR, "Failed to read the number of words requested. %zd\n", nelmnts);
     gk_free((void **)&array, LTERM);
     return NULL;
@@ -269,7 +269,7 @@ int64_t *gk_i64readfilebin(char *fname, ssize_t *r_nelmnts)
 
   fpin = gk_fopen(fname, "rb", "gk_i64readfilebin");
   
-  if (fread(array, sizeof(int64_t), nelmnts, fpin) != nelmnts) {
+  if ((ssize_t)fread(array, sizeof(int64_t), nelmnts, fpin) != (ssize_t)nelmnts) {
     gk_errexit(SIGERR, "Failed to read the number of words requested. %zd\n", nelmnts);
     gk_free((void **)&array, LTERM);
     return NULL;
@@ -308,7 +308,7 @@ float *gk_freadfilebin(char *fname, ssize_t *r_nelmnts)
 
   fpin = gk_fopen(fname, "rb", "gk_freadfilebin");
   
-  if (fread(array, sizeof(float), nelmnts, fpin) != nelmnts) {
+  if ((ssize_t)fread(array, sizeof(float), nelmnts, fpin) != nelmnts) {
     gk_errexit(SIGERR, "Failed to read the number of words requested. %zd\n", nelmnts);
     gk_free((void **)&array, LTERM);
     return NULL;
@@ -370,7 +370,7 @@ double *gk_dreadfilebin(char *fname, ssize_t *r_nelmnts)
 
   fpin = gk_fopen(fname, "rb", "gk_dreadfilebin");
   
-  if (fread(array, sizeof(double), nelmnts, fpin) != nelmnts) {
+  if ((ssize_t)fread(array, sizeof(double), nelmnts, fpin) != nelmnts) {
     gk_errexit(SIGERR, "Failed to read the number of words requested. %zd\n", nelmnts);
     gk_free((void **)&array, LTERM);
     return NULL;

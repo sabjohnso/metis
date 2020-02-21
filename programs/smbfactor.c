@@ -21,7 +21,7 @@
 void ComputeFillIn(graph_t *graph, idx_t *perm, idx_t *iperm, 
          size_t *r_maxlnz, size_t *r_opc)
 {
-  idx_t i, j, k, nvtxs, maxlnz, maxsub;
+  idx_t i, nvtxs, maxlnz, maxsub;
   idx_t *xadj, *adjncy;
   idx_t *xlnz, *xnzsub, *nzsub;
   size_t opc;
