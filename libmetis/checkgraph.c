@@ -117,7 +117,7 @@ int CheckGraph(graph_t *graph, int numflag, int verbose)
 /*************************************************************************/
 /*! This function performs a quick check of the weights of the graph */
 /*************************************************************************/
-int CheckInputGraphWeights(idx_t nvtxs, idx_t ncon, idx_t *xadj, idx_t *adjncy, 
+int CheckInputGraphWeights(idx_t nvtxs, idx_t ncon, idx_t *xadj,
         idx_t *vwgt, idx_t *vsize, idx_t *adjwgt) 
 {
   idx_t i;

@@ -26,14 +26,14 @@ void Refine2WayNode(ctrl_t *ctrl, graph_t *orggraph, graph_t *graph)
   IFSET(ctrl->dbglvl, METIS_DBG_TIME, gk_startcputimer(ctrl->UncoarsenTmr));
 
   if (graph == orggraph) {
-    Compute2WayNodePartitionParams(ctrl, graph);
+    Compute2WayNodePartitionParams(graph);
   }
   else {
     do {
       graph = graph->finer;
 
       IFSET(ctrl->dbglvl, METIS_DBG_TIME, gk_startcputimer(ctrl->ProjectTmr));
-      Project2WayNodePartition(ctrl, graph);
+      Project2WayNodePartition(graph);
       IFSET(ctrl->dbglvl, METIS_DBG_TIME, gk_stopcputimer(ctrl->ProjectTmr));
 
       IFSET(ctrl->dbglvl, METIS_DBG_TIME, gk_startcputimer(ctrl->RefTmr));
@@ -63,7 +63,7 @@ void Refine2WayNode(ctrl_t *ctrl, graph_t *orggraph, graph_t *graph)
 /*************************************************************************/
 /*! This function allocates memory for 2-way node-based refinement */
 /**************************************************************************/
-void Allocate2WayNodePartitionMemory(ctrl_t *ctrl, graph_t *graph)
+void Allocate2WayNodePartitionMemory(graph_t *graph)
 {
   idx_t nvtxs;
 
@@ -80,7 +80,7 @@ void Allocate2WayNodePartitionMemory(ctrl_t *ctrl, graph_t *graph)
 /*************************************************************************/
 /*! This function computes the edegrees[] to the left & right sides */
 /*************************************************************************/
-void Compute2WayNodePartitionParams(ctrl_t *ctrl, graph_t *graph)
+void Compute2WayNodePartitionParams(graph_t *graph)
 {
   idx_t i, j, nvtxs, nbnd;
   idx_t *xadj, *adjncy, *vwgt;
@@ -124,7 +124,7 @@ void Compute2WayNodePartitionParams(ctrl_t *ctrl, graph_t *graph)
     }
   }
 
-  ASSERT(CheckNodeBnd(graph, nbnd));
+  ASSERT(CheckNodeBnd(graph));
 
   graph->mincut = pwgts[2];
   graph->nbnd   = nbnd;
@@ -134,7 +134,7 @@ void Compute2WayNodePartitionParams(ctrl_t *ctrl, graph_t *graph)
 /*************************************************************************/
 /*! This function projects the node-based bisection */
 /*************************************************************************/
-void Project2WayNodePartition(ctrl_t *ctrl, graph_t *graph)
+void Project2WayNodePartition(graph_t *graph)
 {
   idx_t i, nvtxs;
   idx_t *cmap, *where, *cwhere;
@@ -146,7 +146,7 @@ void Project2WayNodePartition(ctrl_t *ctrl, graph_t *graph)
   nvtxs = graph->nvtxs;
   cmap  = graph->cmap;
 
-  Allocate2WayNodePartitionMemory(ctrl, graph);
+  Allocate2WayNodePartitionMemory(graph);
   where = graph->where;
   
   /* Project the partition */
@@ -159,5 +159,5 @@ void Project2WayNodePartition(ctrl_t *ctrl, graph_t *graph)
   FreeGraph(&graph->coarser);
   graph->coarser = NULL;
 
-  Compute2WayNodePartitionParams(ctrl, graph);
+  Compute2WayNodePartitionParams(graph);
 }

@@ -31,7 +31,7 @@ void BucketSortKeysInc(ctrl_t *ctrl, idx_t n, idx_t max, idx_t *keys,
 
 /* checkgraph.c */
 int CheckGraph(graph_t *graph, int numflag, int verbose);
-int CheckInputGraphWeights(idx_t nvtxs, idx_t ncon, idx_t *xadj, idx_t *adjncy,
+int CheckInputGraphWeights(idx_t nvtxs, idx_t ncon, idx_t *xadj,
         idx_t *vwgt, idx_t *vsize, idx_t *adjwgt);
 graph_t *FixGraph(graph_t *graph);
 
@@ -55,7 +55,7 @@ void CreateCoarseGraphNoMask(ctrl_t *ctrl, graph_t *graph, idx_t cnvtxs,
 void CreateCoarseGraphPerm(ctrl_t *ctrl, graph_t *graph, idx_t cnvtxs, 
          idx_t *match, idx_t *perm);
 graph_t *SetupCoarseGraph(graph_t *graph, idx_t cnvtxs, idx_t dovsize);
-void ReAdjustMemory(ctrl_t *ctrl, graph_t *graph, graph_t *cgraph);
+void ReAdjustMemory(graph_t *graph, graph_t *cgraph);
 
 
 
@@ -71,8 +71,8 @@ idx_t FindPartitionInducedComponents(graph_t *graph, idx_t *where,
           idx_t *cptr, idx_t *cind);
 void ComputeBFSOrdering(ctrl_t *ctrl, graph_t *graph, idx_t *bfsperm);
 idx_t IsConnected(graph_t *graph, idx_t report);
-idx_t IsConnectedSubdomain(ctrl_t *, graph_t *, idx_t, idx_t);
-idx_t FindSepInducedComponents(ctrl_t *, graph_t *, idx_t *, idx_t *);
+idx_t IsConnectedSubdomain(graph_t *, idx_t, idx_t);
+idx_t FindSepInducedComponents(graph_t *, idx_t *, idx_t *);
 void EliminateComponents(ctrl_t *ctrl, graph_t *graph);
 void MoveGroupContigForCut(ctrl_t *ctrl, graph_t *graph, idx_t to, idx_t gid, 
          idx_t *ptr, idx_t *ind);
@@ -87,8 +87,8 @@ idx_t ComputeVolume(graph_t *, idx_t *);
 idx_t ComputeMaxCut(graph_t *graph, idx_t nparts, idx_t *where);
 idx_t CheckBnd(graph_t *);
 idx_t CheckBnd2(graph_t *);
-idx_t CheckNodeBnd(graph_t *, idx_t);
-idx_t CheckRInfo(ctrl_t *ctrl, ckrinfo_t *rinfo);
+idx_t CheckNodeBnd(graph_t *);
+idx_t CheckRInfo(ckrinfo_t *rinfo);
 idx_t CheckNodePartitionParams(graph_t *);
 idx_t IsSeparable(graph_t *);
 void CheckKWayVolPartitionParams(ctrl_t *ctrl, graph_t *graph);
@@ -152,9 +152,8 @@ void Greedy_KWayCutOptimize(ctrl_t *ctrl, graph_t *graph, idx_t niter,
 void Greedy_KWayVolOptimize(ctrl_t *ctrl, graph_t *graph, idx_t niter, 
          real_t ffactor, idx_t omode);
 void Greedy_McKWayCutOptimize(ctrl_t *ctrl, graph_t *graph, idx_t niter, 
-         real_t ffactor, idx_t omode);
-void Greedy_McKWayVolOptimize(ctrl_t *ctrl, graph_t *graph, idx_t niter, 
-         real_t ffactor, idx_t omode);
+                              idx_t omode);
+void Greedy_McKWayVolOptimize(ctrl_t *ctrl, graph_t *graph, idx_t niter,  idx_t omode);
 idx_t IsArticulationNode(idx_t i, idx_t *xadj, idx_t *adjncy, idx_t *where,
           idx_t *bfslvl, idx_t *bfsind, idx_t *bfsmrk);
 void KWayVolUpdate(ctrl_t *ctrl, graph_t *graph, idx_t v, idx_t from,
@@ -238,7 +237,7 @@ void MinCover_RowDFS(idx_t *, idx_t *, idx_t, idx_t *, idx_t *, idx_t);
 /* mmd.c */
 void genmmd(idx_t, idx_t *, idx_t *, idx_t *, idx_t *, idx_t , idx_t *, idx_t *, idx_t *, idx_t *, idx_t, idx_t *);
 void mmdelm(idx_t, idx_t *xadj, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *, idx_t, idx_t);
-idx_t mmdint(idx_t, idx_t *xadj, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *);
+idx_t mmdint(idx_t, idx_t *xadj, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *);
 void mmdnum(idx_t, idx_t *, idx_t *, idx_t *);
 void mmdupd(idx_t, idx_t, idx_t *, idx_t *, idx_t, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *, idx_t *, idx_t, idx_t *tag);
 
@@ -286,9 +285,9 @@ void SplitGraphPart(ctrl_t *ctrl, graph_t *graph, graph_t **r_lgraph, graph_t **
 
 /* refine.c */
 void Refine2Way(ctrl_t *ctrl, graph_t *orggraph, graph_t *graph, real_t *rtpwgts);
-void Allocate2WayPartitionMemory(ctrl_t *ctrl, graph_t *graph);
-void Compute2WayPartitionParams(ctrl_t *ctrl, graph_t *graph);
-void Project2WayPartition(ctrl_t *ctrl, graph_t *graph);
+void Allocate2WayPartitionMemory(graph_t *graph);
+void Compute2WayPartitionParams(graph_t *graph);
+void Project2WayPartition(graph_t *graph);
 
 
 /* separator.c */
@@ -304,9 +303,9 @@ void FM_2WayNodeBalance(ctrl_t *ctrl, graph_t *graph);
 
 /* srefine.c */
 void Refine2WayNode(ctrl_t *ctrl, graph_t *orggraph, graph_t *graph);
-void Allocate2WayNodePartitionMemory(ctrl_t *ctrl, graph_t *graph);
-void Compute2WayNodePartitionParams(ctrl_t *ctrl, graph_t *graph);
-void Project2WayNodePartition(ctrl_t *ctrl, graph_t *graph);
+void Allocate2WayNodePartitionMemory(graph_t *graph);
+void Compute2WayNodePartitionParams(graph_t *graph);
+void Project2WayNodePartition(graph_t *graph);
 
 
 /* stat.c */

@@ -76,7 +76,7 @@ void FM_2WayNodeRefine2Sided(ctrl_t *ctrl, graph_t *graph, idx_t niter)
       rpqInsert(queues[1], i, vwgt[i]-rinfo[i].edegrees[0]);
     }
 
-    ASSERT(CheckNodeBnd(graph, nbnd));
+    ASSERT(CheckNodeBnd(graph));
     ASSERT(CheckNodePartitionParams(graph));
 
     limit = (ctrl->compress ? gk_min(5*nbnd, 400) : gk_min(2*nbnd, 300));
@@ -316,7 +316,7 @@ void FM_2WayNodeRefine1Sided(ctrl_t *ctrl, graph_t *graph, idx_t niter)
       rpqInsert(queue, i, vwgt[i]-rinfo[i].edegrees[other]);
     }
 
-    ASSERT(CheckNodeBnd(graph, nbnd));
+    ASSERT(CheckNodeBnd(graph));
     ASSERT(CheckNodePartitionParams(graph));
 
     limit = (ctrl->compress ? gk_min(5*nbnd, 500) : gk_min(3*nbnd, 300));
@@ -523,7 +523,7 @@ void FM_2WayNodeBalance(ctrl_t *ctrl, graph_t *graph)
     rpqInsert(queue, i, vwgt[i]-rinfo[i].edegrees[other]);
   }
 
-  ASSERT(CheckNodeBnd(graph, nbnd));
+  ASSERT(CheckNodeBnd(graph));
   ASSERT(CheckNodePartitionParams(graph));
 
   /******************************************************

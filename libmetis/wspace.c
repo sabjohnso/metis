@@ -174,7 +174,7 @@ idx_t cnbrpoolGetNext(ctrl_t *ctrl, idx_t nnbrs)
   ctrl->nbrpoolcpos += nnbrs;
 
   if (ctrl->nbrpoolcpos > ctrl->nbrpoolsize) {
-    ctrl->nbrpoolsize += gk_max(10*nnbrs, ctrl->nbrpoolsize/2);
+    ctrl->nbrpoolsize += gk_max(10*nnbrs, (ssize_t)(ctrl->nbrpoolsize/2));
 
     ctrl->cnbrpool = (cnbr_t *)gk_realloc(ctrl->cnbrpool,  
                           ctrl->nbrpoolsize*sizeof(cnbr_t), "cnbrpoolGet: cnbrpool");
@@ -202,7 +202,7 @@ idx_t vnbrpoolGetNext(ctrl_t *ctrl, idx_t nnbrs)
   ctrl->nbrpoolcpos += nnbrs;
 
   if (ctrl->nbrpoolcpos > ctrl->nbrpoolsize) {
-    ctrl->nbrpoolsize += gk_max(10*nnbrs, ctrl->nbrpoolsize/2);
+    ctrl->nbrpoolsize += gk_max(10*nnbrs, (ssize_t)(ctrl->nbrpoolsize/2));
 
     ctrl->vnbrpool = (vnbr_t *)gk_realloc(ctrl->vnbrpool,  
                           ctrl->nbrpoolsize*sizeof(vnbr_t), "vnbrpoolGet: vnbrpool");

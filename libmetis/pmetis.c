@@ -265,7 +265,7 @@ idx_t MultilevelBisect(ctrl_t *ctrl, graph_t *graph, real_t *tpwgts)
 
   if (bestobj != curobj) {
     icopy(graph->nvtxs, bestwhere, graph->where);
-    Compute2WayPartitionParams(ctrl, graph);
+    Compute2WayPartitionParams(graph);
   }
 
   WCOREPOP;

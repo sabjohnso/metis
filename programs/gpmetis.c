@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
       gk_stopcputimer(params->iotimer);
     }
 
-    GPReportResults(params, graph, part, objval);
+    GPReportResults(params, graph, part);
   }
 
   FreeGraph(&graph);
@@ -204,7 +204,7 @@ void GPPrintInfo(params_t *params, graph_t *graph)
 /*************************************************************************/
 /*! This function does any post-partitioning reporting */
 /*************************************************************************/
-void GPReportResults(params_t *params, graph_t *graph, idx_t *part, idx_t objval)
+void GPReportResults(params_t *params, graph_t *graph, idx_t *part)
 { 
   gk_startcputimer(params->reporttimer);
   ComputePartitionInfo(params, graph, part);

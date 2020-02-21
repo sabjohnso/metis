@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
       gk_stopcputimer(params->iotimer);
     }
 
-    MPReportResults(params, mesh, epart, npart, objval);
+    MPReportResults(params, objval);
   }
 
   FreeMesh(&mesh);
@@ -165,7 +165,7 @@ void MPPrintInfo(params_t *params, mesh_t *mesh)
 /*************************************************************************/
 /*! This function does any post-partitioning reporting */
 /*************************************************************************/
-void MPReportResults(params_t *params, mesh_t *mesh, idx_t *epart, idx_t *npart,
+void MPReportResults(params_t *params,
          idx_t objval)
 { 
 

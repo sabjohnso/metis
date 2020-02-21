@@ -211,7 +211,7 @@ mesh_t *ReadMesh(params_t *params)
   if (mesh->ne <= 0) 
     errexit("The supplied number of elements:%"PRIDX" must be positive.\n", mesh->ne);
         
-  if (mesh->ne > nlines)
+  if (mesh->ne > (ssize_t)nlines)
     errexit("The file has %zu lines which smaller than the number of "
             "elements of %"PRIDX" specified in the header line.\n", nlines, mesh->ne);
 

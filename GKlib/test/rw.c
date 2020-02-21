@@ -93,7 +93,7 @@ static char shorthelpstr[][100] = {
 /*! Function prototypes */
 /*************************************************************************/
 void print_init_info(params_t *params, gk_csr_t *mat);
-void print_final_info(params_t *params);
+void print_final_info(void);
 params_t *parse_cmdline(int argc, char *argv[]);
 
 
@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
   gk_csr_Free(&mat);
 
   /* display some final stats */
-  print_final_info(params);
+  print_final_info();
 }
 
 
@@ -224,7 +224,7 @@ void print_init_info(params_t *params, gk_csr_t *mat)
 /*************************************************************************/
 /*! This function prints final statistics */
 /*************************************************************************/
-void print_final_info(params_t *params)
+void print_final_info(void)
 {
   printf("\n");
   printf("Memory Usage Information -----------------------------------------------------\n");

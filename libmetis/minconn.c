@@ -601,7 +601,7 @@ void MoveGroupMinConnForVol(ctrl_t *ctrl, graph_t *graph, idx_t to, idx_t nind,
         other  = where[ii];
         orinfo = graph->vkrinfo+ii;
         onbrs  = ctrl->vnbrpool + orinfo->inbr;
-        ASSERT(other != to)
+        ASSERT(other != to);
 
         //printf("  %8d %8d %3d\n", (int)ii, (int)vsize[ii], (int)other);
 

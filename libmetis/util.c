@@ -32,7 +32,7 @@ idx_t iargmax_nrm(size_t n, idx_t *x, real_t *y)
 {
   idx_t i, max=0;
       
-  for (i=1; i<n; i++)
+  for (i=1; i < (ssize_t)n; i++)
      max = (x[i]*y[i] > x[max]*y[max] ? i : max);
                 
   return max;

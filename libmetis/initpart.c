@@ -85,7 +85,7 @@ void InitSeparator(ctrl_t *ctrl, graph_t *graph, idx_t niparts)
       else
         GrowBisection(ctrl, graph, ntpwgts, niparts);
 
-      Compute2WayPartitionParams(ctrl, graph);
+      Compute2WayPartitionParams(graph);
       ConstructSeparator(ctrl, graph);
       break;
 
@@ -124,7 +124,7 @@ void RandomBisection(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
   nvtxs  = graph->nvtxs;
   vwgt   = graph->vwgt;
 
-  Allocate2WayPartitionMemory(ctrl, graph);
+  Allocate2WayPartitionMemory(graph);
   where = graph->where;
 
   bestwhere = iwspacemalloc(ctrl, nvtxs);
@@ -153,7 +153,7 @@ void RandomBisection(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
     }
 
     /* Do some partition refinement  */
-    Compute2WayPartitionParams(ctrl, graph);
+    Compute2WayPartitionParams(graph);
     /* printf("IPART: %3"PRIDX" [%5"PRIDX" %5"PRIDX"] [%5"PRIDX" %5"PRIDX"] %5"PRIDX"\n", graph->nvtxs, pwgts[0], pwgts[1], graph->pwgts[0], graph->pwgts[1], graph->mincut); */
 
     Balance2Way(ctrl, graph, ntpwgts);
@@ -199,7 +199,7 @@ void GrowBisection(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
   vwgt   = graph->vwgt;
   adjncy = graph->adjncy;
 
-  Allocate2WayPartitionMemory(ctrl, graph);
+  Allocate2WayPartitionMemory(graph);
   where = graph->where;
 
   bestwhere = iwspacemalloc(ctrl, nvtxs);
@@ -279,7 +279,7 @@ void GrowBisection(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
     /*************************************************************
     * Do some partition refinement 
     **************************************************************/
-    Compute2WayPartitionParams(ctrl, graph);
+    Compute2WayPartitionParams(graph);
     /*
     printf("IPART: %3"PRIDX" [%5"PRIDX" %5"PRIDX"] [%5"PRIDX" %5"PRIDX"] %5"PRIDX"\n", 
         graph->nvtxs, pwgts[0], pwgts[1], graph->pwgts[0], graph->pwgts[1], graph->mincut); 
@@ -331,7 +331,7 @@ void McRandomBisection(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
   ncon  = graph->ncon;
   vwgt  = graph->vwgt;
 
-  Allocate2WayPartitionMemory(ctrl, graph);
+  Allocate2WayPartitionMemory(graph);
   where = graph->where;
 
   bestwhere = iwspacemalloc(ctrl, nvtxs);
@@ -349,7 +349,7 @@ void McRandomBisection(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
       where[i] = (counts[qnum]++)%2;
     }
 
-    Compute2WayPartitionParams(ctrl, graph);
+    Compute2WayPartitionParams(graph);
 
     FM_2WayRefine(ctrl, graph, ntpwgts, ctrl->niter);
     Balance2Way(ctrl, graph, ntpwgts);
@@ -388,7 +388,7 @@ void McGrowBisection(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
 
   nvtxs = graph->nvtxs;
 
-  Allocate2WayPartitionMemory(ctrl, graph);
+  Allocate2WayPartitionMemory(graph);
   where = graph->where;
 
   bestwhere = iwspacemalloc(ctrl, nvtxs);
@@ -397,7 +397,7 @@ void McGrowBisection(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
     iset(nvtxs, 1, where);
     where[irandInRange(nvtxs)] = 0;
 
-    Compute2WayPartitionParams(ctrl, graph);
+    Compute2WayPartitionParams(graph);
 
     Balance2Way(ctrl, graph, ntpwgts);
     FM_2WayRefine(ctrl, graph, ntpwgts, ctrl->niter);
@@ -522,7 +522,7 @@ void GrowBisectionNode(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
     /*************************************************************
     * Do some partition refinement 
     **************************************************************/
-    Compute2WayPartitionParams(ctrl, graph);
+    Compute2WayPartitionParams(graph);
     Balance2Way(ctrl, graph, ntpwgts);
     FM_2WayRefine(ctrl, graph, ntpwgts, 4);
 
@@ -533,7 +533,7 @@ void GrowBisectionNode(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
         where[j] = 2;
     }
 
-    Compute2WayNodePartitionParams(ctrl, graph); 
+    Compute2WayNodePartitionParams(graph); 
     FM_2WayNodeRefine2Sided(ctrl, graph, 1);
     FM_2WayNodeRefine1Sided(ctrl, graph, 4);
 
@@ -592,7 +592,7 @@ void GrowBisectionNode2(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
     if (inbfs > 0)
       where[irandInRange(nvtxs)] = 0;
 
-    Compute2WayPartitionParams(ctrl, graph);
+    Compute2WayPartitionParams(graph);
     General2WayBalance(ctrl, graph, ntpwgts);
     FM_2WayRefine(ctrl, graph, ntpwgts, ctrl->niter);
 
@@ -603,7 +603,7 @@ void GrowBisectionNode2(ctrl_t *ctrl, graph_t *graph, real_t *ntpwgts,
         where[j] = 2;
     }
 
-    Compute2WayNodePartitionParams(ctrl, graph); 
+    Compute2WayNodePartitionParams(graph); 
     FM_2WayNodeRefine2Sided(ctrl, graph, 4);
 
     /*

@@ -84,10 +84,10 @@ static char shorthelpstr[][100] = {
 /*************************************************************************/
 /*! Function prototypes */
 /*************************************************************************/
-double compute_compactness(params_t *params, gk_graph_t *graph, int32_t *perm);
+double compute_compactness(gk_graph_t *graph, int32_t *perm);
 void reorder_centroid(params_t *params, gk_graph_t *graph, int32_t *perm);
 void print_init_info(params_t *params, gk_graph_t *graph);
-void print_final_info(params_t *params);
+void print_final_info(void);
 params_t *parse_cmdline(int argc, char *argv[]);
 
 
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 
 
   /* determine the initial compactness of the graph */
-  printf("Initial compactness: %le\n", compute_compactness(params, graph, NULL));
+  printf("Initial compactness: %le\n", compute_compactness(graph, NULL));
 
   /* compute the BFS ordering and re-order the graph */
   //for (i=0; i<params->niter; i++) {
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
     v = RandomInRange(graph->nvtxs);
     gk_graph_ComputeBFSOrdering(graph, v, &perm, NULL);
     printf("BFS from %8d. Compactness: %le\n", 
-        (int) v, compute_compactness(params, graph, perm));
+        (int) v, compute_compactness(graph, perm));
 
     pgraph = gk_graph_Reorder(graph, perm, NULL);
     gk_graph_Write(pgraph, "bfs.metis", GK_GRAPH_FMT_METIS);
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 
     gk_graph_ComputeBestFOrdering(graph, v, params->type, &perm, NULL);
     printf("BestF from %8d. Compactness: %le\n", 
-        (int) v, compute_compactness(params, graph, perm));
+        (int) v, compute_compactness(graph, perm));
 
     pgraph = gk_graph_Reorder(graph, perm, NULL);
     gk_graph_Write(pgraph, "bestf.metis", GK_GRAPH_FMT_METIS);
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
   gk_graph_Free(&graph);
   //gk_graph_Free(&pgraph);
 
-  print_final_info(params);
+  print_final_info();
 }
 
 
@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
 /*************************************************************************/
 /*! This function computes the compactness of the graph's adjacency list */
 /*************************************************************************/
-double compute_compactness(params_t *params, gk_graph_t *graph, int32_t *perm)
+double compute_compactness(gk_graph_t *graph, int32_t *perm)
 {
   int i, v, u, nvtxs;
   ssize_t j, *xadj; 
@@ -178,7 +178,7 @@ double compute_compactness(params_t *params, gk_graph_t *graph, int32_t *perm)
     v = (perm == NULL ? i : perm[i]);
     for (j=xadj[i]; j<xadj[i+1]; j++) {
       u = (perm == NULL ? adjncy[j] : perm[adjncy[j]]);
-      compactness += fabs(v-u);
+      compactness += abs(v-u);
       freq[gk_abs(v-u)]++;
     }
   }
@@ -272,7 +272,7 @@ void print_init_info(params_t *params, gk_graph_t *graph)
 /*************************************************************************/
 /*! This function prints final statistics */
 /*************************************************************************/
-void print_final_info(params_t *params)
+void print_final_info(void)
 {
   printf("\n");
   printf("Memory Usage Information -----------------------------------------------------\n");

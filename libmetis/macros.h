@@ -103,16 +103,16 @@
 #define UpdateAdjacentVertexInfoAndBND(ctrl, vid, adjlen, me, from, to, \
             myrinfo, ewgt, nbnd, bndptr, bndind, bndtype) \
    do { \
-     idx_t k; \
-     cnbr_t *mynbrs; \
+     idx_t k_; \
+     cnbr_t *mynbrs_; \
      \
      if (myrinfo->inbr == -1) { \
        myrinfo->inbr  = cnbrpoolGetNext(ctrl, adjlen+1); \
        myrinfo->nnbrs = 0; \
      } \
-     ASSERT(CheckRInfo(ctrl, myrinfo)); \
+     ASSERT(CheckRInfo(myrinfo)); \
      \
-     mynbrs = ctrl->cnbrpool + myrinfo->inbr; \
+     mynbrs_ = ctrl->cnbrpool + myrinfo->inbr; \
      \
      /* Update global ID/ED and boundary */ \
      if (me == from) { \
@@ -140,12 +140,12 @@
      \
      /* Remove contribution from the .ed of 'from' */ \
      if (me != from) { \
-       for (k=0; k<myrinfo->nnbrs; k++) { \
-         if (mynbrs[k].pid == from) { \
-           if (mynbrs[k].ed == (ewgt)) \
-             mynbrs[k] = mynbrs[--myrinfo->nnbrs]; \
+       for (k_=0; k_ < myrinfo->nnbrs; k_ ++) { \
+         if (mynbrs_[k_].pid == from) { \
+           if (mynbrs_[k_].ed == (ewgt)) \
+             mynbrs_[k_] = mynbrs_[--myrinfo->nnbrs]; \
            else \
-             mynbrs[k].ed -= (ewgt); \
+             mynbrs_[k_].ed -= (ewgt); \
            break; \
          } \
        } \
@@ -153,36 +153,36 @@
      \
      /* Add contribution to the .ed of 'to' */ \
      if (me != to) { \
-       for (k=0; k<myrinfo->nnbrs; k++) { \
-         if (mynbrs[k].pid == to) { \
-           mynbrs[k].ed += (ewgt); \
+       for (k_=0; k_<myrinfo->nnbrs; k_++) { \
+         if (mynbrs_[k_].pid == to) { \
+           mynbrs_[k_].ed += (ewgt); \
            break; \
          } \
        } \
-       if (k == myrinfo->nnbrs) { \
-         mynbrs[k].pid  = to; \
-         mynbrs[k].ed   = (ewgt); \
+       if (k_ == myrinfo->nnbrs) { \
+         mynbrs_[k_].pid  = to; \
+         mynbrs_[k_].ed   = (ewgt);              \
          myrinfo->nnbrs++; \
        } \
      } \
      \
-     ASSERT(CheckRInfo(ctrl, myrinfo));\
+     ASSERT(CheckRInfo(myrinfo));\
    } while(0) 
 
 
 #define UpdateQueueInfo(queue, vstatus, vid, me, from, to, myrinfo, oldnnbrs, \
             nupd, updptr, updind, bndtype) \
    do { \
-     real_t rgain; \
+     real_t rgain_; \
      \
      if (me == to || me == from || oldnnbrs != myrinfo->nnbrs) {  \
-       rgain = (myrinfo->nnbrs > 0 ?  \
+       rgain_ = (myrinfo->nnbrs > 0 ?  \
                 1.0*myrinfo->ed/sqrt(myrinfo->nnbrs) : 0.0) - myrinfo->id; \
    \
        if (bndtype == BNDTYPE_REFINE) { \
          if (vstatus[(vid)] == VPQSTATUS_PRESENT) { \
            if (myrinfo->ed-myrinfo->id >= 0) \
-             rpqUpdate(queue, (vid), rgain); \
+             rpqUpdate(queue, (vid), rgain_); \
            else { \
              rpqDelete(queue, (vid)); \
              vstatus[(vid)] = VPQSTATUS_NOTPRESENT; \
@@ -190,7 +190,7 @@
            } \
          } \
          else if (vstatus[(vid)] == VPQSTATUS_NOTPRESENT && myrinfo->ed-myrinfo->id >= 0) { \
-           rpqInsert(queue, (vid), rgain); \
+           rpqInsert(queue, (vid), rgain_); \
            vstatus[(vid)] = VPQSTATUS_PRESENT; \
            ListInsert(nupd, updind, updptr, (vid)); \
          } \
@@ -198,7 +198,7 @@
        else { \
          if (vstatus[(vid)] == VPQSTATUS_PRESENT) { \
            if (myrinfo->ed > 0) \
-             rpqUpdate(queue, (vid), rgain); \
+             rpqUpdate(queue, (vid), rgain_); \
            else { \
              rpqDelete(queue, (vid)); \
              vstatus[(vid)] = VPQSTATUS_NOTPRESENT; \
@@ -206,7 +206,7 @@
            } \
          } \
          else if (vstatus[(vid)] == VPQSTATUS_NOTPRESENT && myrinfo->ed > 0) { \
-           rpqInsert(queue, (vid), rgain); \
+           rpqInsert(queue, (vid), rgain_); \
            vstatus[(vid)] = VPQSTATUS_PRESENT; \
            ListInsert(nupd, updind, updptr, (vid)); \
          } \
@@ -222,19 +222,19 @@
 /*************************************************************************/
 #define SelectSafeTargetSubdomains(myrinfo, mynbrs, nads, adids, maxndoms, safetos, vtmp) \
   do { \
-    idx_t j_, k, l, nadd, to; \
+    idx_t j_, k_, l, nadd, to_; \
     for (j_=0; j_<myrinfo->nnbrs; j_++) { \
-      safetos[to = mynbrs[j_].pid] = 0; \
+      safetos[to_ = mynbrs[j_].pid] = 0;  \
       \
-      /* uncompress the connectivity info for the 'to' subdomain */ \
-      for (k=0; k<nads[to]; k++) \
-        vtmp[adids[to][k]] = 1; \
+      /* uncompress the connectivity info for the 'to_' subdomain */ \
+      for (k_=0; k_<nads[to_]; k_++) \
+        vtmp[adids[to_][k_]] = 1; \
       \
-      for (nadd=0, k=0; k<myrinfo->nnbrs; k++) { \
-        if (k == j_) \
+      for (nadd=0, k_=0; k_<myrinfo->nnbrs; k_++) { \
+        if (k_ == j_) \
           continue; \
         \
-        l = mynbrs[k].pid; \
+        l = mynbrs[k_].pid; \
         if (vtmp[l] == 0) { \
           if (nads[l] > maxndoms-1) { \
             nadd = maxndoms; \
@@ -243,14 +243,14 @@
           nadd++; \
         } \
       } \
-      if (nads[to]+nadd <= maxndoms) \
-        safetos[to] = 1; \
+      if (nads[to_]+nadd <= maxndoms) \
+        safetos[to_] = 1; \
       if (nadd == 0) \
-        safetos[to] = 2; \
+        safetos[to_] = 2; \
       \
       /* cleanup the connectivity info due to the 'to' subdomain */ \
-      for (k=0; k<nads[to]; k++) \
-        vtmp[adids[to][k]] = 0; \
+      for (k_=0; k_<nads[to_]; k_++) \
+        vtmp[adids[to_][k_]] = 0; \
     } \
   } while (0)
 

@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
     WriteGraph(graph, params->outfile);
     gk_stopcputimer(params->iotimer);
 
-    M2GReportResults(params, mesh, graph);
+    M2GReportResults(params, graph);
   }
 
   FreeGraph(&graph);
@@ -119,7 +119,7 @@ void M2GPrintInfo(params_t *params, mesh_t *mesh)
 /*************************************************************************/
 /*! This function does any post-metis reporting */
 /*************************************************************************/
-void M2GReportResults(params_t *params, mesh_t *mesh, graph_t *graph)
+void M2GReportResults(params_t *params, graph_t *graph)
 { 
 
   gk_startcputimer(params->reporttimer);

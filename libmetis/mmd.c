@@ -64,7 +64,7 @@ void genmmd(idx_t neqns, idx_t *xadj, idx_t *adjncy, idx_t *invp, idx_t *perm,
 
     /* initialization for the minimum degree algorithm. */
     *ncsub = 0;
-    mmdint(neqns, xadj, adjncy, head, invp, perm, qsize, list, marker);
+    mmdint(neqns, xadj, head, invp, perm, qsize, list, marker);
 
     /*  'num' counts the number of ordered nodes plus 1. */
     num = 1;
@@ -302,7 +302,7 @@ n1100:
 *       list -- linked list.
 *       marker -- marker vector.
 ****************************************************************************/
-idx_t  mmdint(idx_t neqns, idx_t *xadj, idx_t *adjncy, idx_t *head, idx_t *forward,
+idx_t  mmdint(idx_t neqns, idx_t *xadj, idx_t *head, idx_t *forward,
      idx_t *backward, idx_t *qsize, idx_t *list, idx_t *marker)
 {
     idx_t  fnode, ndeg, node;

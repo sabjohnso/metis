@@ -137,8 +137,8 @@
         assert(expr);                                                \
     }
 #else
-#   define ASSERT(expr) ;
-#   define ASSERTP(expr,msg) ;
+#   define ASSERT(expr) do{}while(0)
+#   define ASSERTP(expr,msg) do{}while(0);
 #endif 
 
 #ifndef NDEBUG2

@@ -98,7 +98,7 @@ static char shorthelpstr[][100] = {
 /*! Function prototypes */
 /*************************************************************************/
 void print_init_info(params_t *params, gk_csr_t *mat);
-void print_final_info(params_t *params);
+void print_final_info(void);
 params_t *parse_cmdline(int argc, char *argv[]);
 void print_an_itemset(void *stateptr, int nitems, int *itemind, 
                       int ntrans, int *tranind);
@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
 
   printf("Total itemsets found: %zd\n", params->nitemsets);
 
-  print_final_info(params);
+  print_final_info();
 }  
 
 
@@ -178,7 +178,7 @@ void print_init_info(params_t *params, gk_csr_t *mat)
 /*************************************************************************/
 /*! This function prints final statistics */
 /*************************************************************************/
-void print_final_info(params_t *params)
+void print_final_info(void)
 {
   printf("\n");
   printf("Memory Usage Information -----------------------------------------------------\n");

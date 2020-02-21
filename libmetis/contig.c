@@ -181,7 +181,7 @@ idx_t IsConnected(graph_t *graph, idx_t report)
 /*! This function checks whether or not partition pid is contigous
   */
 /*************************************************************************/
-idx_t IsConnectedSubdomain(ctrl_t *ctrl, graph_t *graph, idx_t pid, idx_t report)
+idx_t IsConnectedSubdomain(graph_t *graph, idx_t pid, idx_t report)
 {
   idx_t i, j, k, nvtxs, first, last, nleft, ncmps, wgt;
   idx_t *xadj, *adjncy, *where, *touched, *queue;
@@ -264,7 +264,7 @@ idx_t IsConnectedSubdomain(ctrl_t *ctrl, graph_t *graph, idx_t pid, idx_t report
     pair of arrays cptr, cind.
 */
 /**************************************************************************/
-idx_t FindSepInducedComponents(ctrl_t *ctrl, graph_t *graph, idx_t *cptr, 
+idx_t FindSepInducedComponents(graph_t *graph, idx_t *cptr, 
           idx_t *cind)
 {
   idx_t i, j, k, nvtxs, first, last, nleft, ncmps;
@@ -584,7 +584,7 @@ void MoveGroupContigForCut(ctrl_t *ctrl, graph_t *graph, idx_t to, idx_t gid,
           from, to, myrinfo, adjwgt[j], nbnd, bndptr, bndind, BNDTYPE_REFINE);
     }
 
-    ASSERT(CheckRInfo(ctrl, graph->ckrinfo+i));
+    ASSERT(CheckRInfo(graph->ckrinfo+i));
   }
 
   graph->nbnd = nbnd;
@@ -638,7 +638,7 @@ void MoveGroupContigForVol(ctrl_t *ctrl, graph_t *graph, idx_t to, idx_t gid,
         other  = where[ii];
         orinfo = graph->vkrinfo+ii;
         onbrs  = ctrl->vnbrpool + orinfo->inbr;
-        ASSERT(other != to)
+        ASSERT(other != to);
 
         if (from == other) {
           /* Same subdomain vertex: Decrease the gain if 'to' is a new neighbor. */

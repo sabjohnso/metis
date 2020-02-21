@@ -25,14 +25,14 @@ void Greedy_KWayOptimize(ctrl_t *ctrl, graph_t *graph, idx_t niter,
       if (graph->ncon == 1)
         Greedy_KWayCutOptimize(ctrl, graph, niter, ffactor, omode);
       else
-        Greedy_McKWayCutOptimize(ctrl, graph, niter, ffactor, omode);
+        Greedy_McKWayCutOptimize(ctrl, graph, niter, omode);
       break;
 
     case METIS_OBJTYPE_VOL:
       if (graph->ncon == 1)
         Greedy_KWayVolOptimize(ctrl, graph, niter, ffactor, omode);
       else
-        Greedy_McKWayVolOptimize(ctrl, graph, niter, ffactor, omode);
+        Greedy_McKWayVolOptimize(ctrl, graph, niter, omode);
       break;
 
     default:
@@ -679,7 +679,7 @@ void Greedy_KWayVolOptimize(ctrl_t *ctrl, graph_t *graph, idx_t niter,
 */
 /**************************************************************************/
 void Greedy_McKWayCutOptimize(ctrl_t *ctrl, graph_t *graph, idx_t niter, 
-         real_t ffactor, idx_t omode)
+                              idx_t omode)
 {
   /* Common variables to all types of kway-refinement/balancing routines */
   idx_t i, ii, iii, j, k, pass, nvtxs, ncon, nparts, gain; 
@@ -1020,7 +1020,7 @@ void Greedy_McKWayCutOptimize(ctrl_t *ctrl, graph_t *graph, idx_t niter,
 */
 /**************************************************************************/
 void Greedy_McKWayVolOptimize(ctrl_t *ctrl, graph_t *graph, idx_t niter, 
-         real_t ffactor, idx_t omode)
+                              idx_t omode)
 {
   /* Common variables to all types of kway-refinement/balancing routines */
   idx_t i, ii, iii, j, k, pass, nvtxs, ncon, nparts, gain; 

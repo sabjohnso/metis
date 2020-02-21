@@ -193,7 +193,7 @@ idx_t CheckBnd2(graph_t *graph)
 /*! This function checks whether or not the boundary information is correct 
  */
 /*************************************************************************/
-idx_t CheckNodeBnd(graph_t *graph, idx_t onbnd) 
+idx_t CheckNodeBnd(graph_t *graph) 
 {
   idx_t i, nvtxs, nbnd;
   idx_t *where;
@@ -229,7 +229,7 @@ idx_t CheckNodeBnd(graph_t *graph, idx_t onbnd)
 /*! This function checks whether or not the rinfo of a vertex is consistent 
  */
 /*************************************************************************/
-idx_t CheckRInfo(ctrl_t *ctrl, ckrinfo_t *rinfo)
+idx_t CheckRInfo(ckrinfo_t *rinfo)
 {
   idx_t i, j;
 

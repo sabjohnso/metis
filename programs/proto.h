@@ -38,7 +38,7 @@ params_t *parse_cmdline(int argc, char *argv[]);
 
 /* gpmetis.c */
 void GPPrintInfo(params_t *params, graph_t *graph);
-void GPReportResults(params_t *params, graph_t *graph, idx_t *part, idx_t edgecut);
+void GPReportResults(params_t *params, graph_t *graph, idx_t *part);
 
 /* ndmetis.c */
 void NDPrintInfo(params_t *params, graph_t *graph);
@@ -46,12 +46,12 @@ void NDReportResults(params_t *params, graph_t *graph, idx_t *perm, idx_t *iperm
 
 /* mpmetis.c */
 void MPPrintInfo(params_t *params, mesh_t *mesh);
-void MPReportResults(params_t *params, mesh_t *mesh, idx_t *epart, idx_t *npart, 
+void MPReportResults(params_t *params,
          idx_t edgecut);
 
 /* m2gmetis.c */
 void M2GPrintInfo(params_t *params, mesh_t *mesh);
-void M2GReportResults(params_t *params, mesh_t *mesh, graph_t *graph);
+void M2GReportResults(params_t *params, graph_t *graph);
 
 /* stat.c */
 void ComputePartitionInfo(params_t *params, graph_t *graph, idx_t *where);

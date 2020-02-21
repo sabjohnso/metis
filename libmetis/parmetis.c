@@ -212,10 +212,10 @@ int METIS_NodeRefine(idx_t nvtxs, idx_t *xadj, idx_t *vwgt, idx_t *adjncy,
   AllocateWorkSpace(ctrl, graph);
 
   /* set up the memory and the input partition */
-  Allocate2WayNodePartitionMemory(ctrl, graph);
+  Allocate2WayNodePartitionMemory(graph);
   icopy(nvtxs, where, graph->where);
 
-  Compute2WayNodePartitionParams(ctrl, graph);
+  Compute2WayNodePartitionParams(graph);
 
   FM_2WayNodeRefine1SidedP(ctrl, graph, hmarker, ubfactor, 10); 
   /* FM_2WayNodeRefine2SidedP(ctrl, graph, hmarker, ubfactor, 10); */
@@ -298,7 +298,7 @@ void FM_2WayNodeRefine1SidedP(ctrl_t *ctrl, graph_t *graph,
     }
     qsize = rpqLength(queue);
 
-    ASSERT(CheckNodeBnd(graph, nbnd));
+    ASSERT(CheckNodeBnd(graph));
     ASSERT(CheckNodePartitionParams(graph));
 
     limit = nbnd;
@@ -527,7 +527,7 @@ void FM_2WayNodeRefine2SidedP(ctrl_t *ctrl, graph_t *graph,
       }
     }
 
-    ASSERT(CheckNodeBnd(graph, nbnd));
+    ASSERT(CheckNodeBnd(graph));
     ASSERT(CheckNodePartitionParams(graph));
 
     limit = nbnd;

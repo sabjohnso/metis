@@ -20,7 +20,7 @@ void Refine2Way(ctrl_t *ctrl, graph_t *orggraph, graph_t *graph, real_t *tpwgts)
   IFSET(ctrl->dbglvl, METIS_DBG_TIME, gk_startcputimer(ctrl->UncoarsenTmr));
 
   /* Compute the parameters of the coarsest graph */
-  Compute2WayPartitionParams(ctrl, graph);
+  Compute2WayPartitionParams(graph);
 
   for (;;) {
     ASSERT(CheckBnd(graph));
@@ -38,7 +38,7 @@ void Refine2Way(ctrl_t *ctrl, graph_t *orggraph, graph_t *graph, real_t *tpwgts)
 
     graph = graph->finer;
     IFSET(ctrl->dbglvl, METIS_DBG_TIME, gk_startcputimer(ctrl->ProjectTmr));
-    Project2WayPartition(ctrl, graph);
+    Project2WayPartition(graph);
     IFSET(ctrl->dbglvl, METIS_DBG_TIME, gk_stopcputimer(ctrl->ProjectTmr));
   }
 
@@ -49,7 +49,7 @@ void Refine2Way(ctrl_t *ctrl, graph_t *orggraph, graph_t *graph, real_t *tpwgts)
 /*************************************************************************/
 /*! This function allocates memory for 2-way edge refinement */
 /*************************************************************************/
-void Allocate2WayPartitionMemory(ctrl_t *ctrl, graph_t *graph)
+void Allocate2WayPartitionMemory(graph_t *graph)
 {
   idx_t nvtxs, ncon;
 
@@ -68,7 +68,7 @@ void Allocate2WayPartitionMemory(ctrl_t *ctrl, graph_t *graph)
 /*************************************************************************/
 /*! This function computes the initial id/ed */
 /*************************************************************************/
-void Compute2WayPartitionParams(ctrl_t *ctrl, graph_t *graph)
+void Compute2WayPartitionParams(graph_t *graph)
 {
   idx_t i, j, nvtxs, ncon, nbnd, mincut, istart, iend, tid, ted, me;
   idx_t *xadj, *vwgt, *adjncy, *adjwgt, *pwgts;
@@ -138,7 +138,7 @@ void Compute2WayPartitionParams(ctrl_t *ctrl, graph_t *graph)
 /*************************************************************************/
 /*! Projects a partition and computes the refinement params. */
 /*************************************************************************/
-void Project2WayPartition(ctrl_t *ctrl, graph_t *graph)
+void Project2WayPartition(graph_t *graph)
 {
   idx_t i, j, istart, iend, nvtxs, nbnd, me, tid, ted;
   idx_t *xadj, *adjncy, *adjwgt;
@@ -147,7 +147,7 @@ void Project2WayPartition(ctrl_t *ctrl, graph_t *graph)
   idx_t *id, *ed;
   graph_t *cgraph;
 
-  Allocate2WayPartitionMemory(ctrl, graph);
+  Allocate2WayPartitionMemory(graph);
 
   cgraph  = graph->coarser;
   cwhere  = cgraph->where;

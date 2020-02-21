@@ -257,7 +257,7 @@ void MlevelNestedDissectionCC(ctrl_t *ctrl, graph_t *graph, idx_t *order,
   WCOREPUSH;
   cptr  = iwspacemalloc(ctrl, nvtxs+1);
   cind  = iwspacemalloc(ctrl, nvtxs);
-  ncmps = FindSepInducedComponents(ctrl, graph, cptr, cind);
+  ncmps = FindSepInducedComponents(graph, cptr, cind);
 
   if (ctrl->dbglvl&METIS_DBG_INFO) {
     if (ncmps > 2)
@@ -329,7 +329,7 @@ void MlevelNodeBisectionMultiple(ctrl_t *ctrl, graph_t *graph)
 
   if (mincut != graph->mincut) {
     icopy(graph->nvtxs, bestwhere, graph->where);
-    Compute2WayNodePartitionParams(ctrl, graph);
+    Compute2WayNodePartitionParams(graph);
   }
 
   WCOREPOP;

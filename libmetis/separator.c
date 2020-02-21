@@ -41,14 +41,14 @@ void ConstructSeparator(ctrl_t *ctrl, graph_t *graph)
 
   FreeRData(graph);
 
-  Allocate2WayNodePartitionMemory(ctrl, graph);
+  Allocate2WayNodePartitionMemory(graph);
   icopy(nvtxs, where, graph->where);
 
   WCOREPOP;
 
   ASSERT(IsSeparable(graph));
 
-  Compute2WayNodePartitionParams(ctrl, graph);
+  Compute2WayNodePartitionParams(graph);
 
   ASSERT(CheckNodePartitionParams(graph));
 
@@ -159,12 +159,12 @@ void ConstructMinCoverSeparator(ctrl_t *ctrl, graph_t *graph)
 
   FreeRData(graph);
 
-  Allocate2WayNodePartitionMemory(ctrl, graph);
+  Allocate2WayNodePartitionMemory(graph);
   icopy(nvtxs, vmap, graph->where);
 
   WCOREPOP;
 
-  Compute2WayNodePartitionParams(ctrl, graph);
+  Compute2WayNodePartitionParams(graph);
 
   ASSERT(CheckNodePartitionParams(graph));
 

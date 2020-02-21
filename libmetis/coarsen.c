@@ -456,7 +456,7 @@ idx_t Match_2HopAny(ctrl_t *ctrl, graph_t *graph, idx_t *perm, idx_t *match,
   WCOREPUSH;
   colptr = iset(nvtxs, 0, iwspacemalloc(ctrl, nvtxs+1));
   for (i=0; i<nvtxs; i++) {
-    if (match[i] == UNMATCHED && xadj[i+1]-xadj[i] < maxdegree) {
+    if (match[i] == UNMATCHED && xadj[i+1]-xadj[i] < (ssize_t)maxdegree) {
       for (j=xadj[i]; j<xadj[i+1]; j++)
         colptr[adjncy[j]]++;
     }
@@ -466,7 +466,7 @@ idx_t Match_2HopAny(ctrl_t *ctrl, graph_t *graph, idx_t *perm, idx_t *match,
   rowind = iwspacemalloc(ctrl, colptr[nvtxs]);
   for (pi=0; pi<nvtxs; pi++) {
     i = perm[pi];
-    if (match[i] == UNMATCHED && xadj[i+1]-xadj[i] < maxdegree) {
+    if (match[i] == UNMATCHED && xadj[i+1]-xadj[i] < (ssize_t)maxdegree) {
       for (j=xadj[i]; j<xadj[i+1]; j++)
         rowind[colptr[adjncy[j]]++] = i;
     }
@@ -540,7 +540,7 @@ idx_t Match_2HopAll(ctrl_t *ctrl, graph_t *graph, idx_t *perm, idx_t *match,
   for (ncand=0, pi=0; pi<nvtxs; pi++) {
     i = perm[pi];
     idegree = xadj[i+1]-xadj[i];
-    if (match[i] == UNMATCHED && idegree > 1 && idegree < maxdegree) {
+    if (match[i] == UNMATCHED && idegree > 1 && idegree < (ssize_t)maxdegree) {
       for (k=0, j=xadj[i]; j<xadj[i+1]; j++) 
         k += adjncy[j]%mask;
       keys[ncand].val = i;
@@ -551,7 +551,7 @@ idx_t Match_2HopAll(ctrl_t *ctrl, graph_t *graph, idx_t *perm, idx_t *match,
   ikvsorti(ncand, keys);
 
   mark = iset(nvtxs, 0, iwspacemalloc(ctrl, nvtxs));
-  for (pi=0; pi<ncand; pi++) {
+  for (pi=0; pi< (ssize_t)ncand; pi++) {
     i = keys[pi].val;
     if (match[i] != UNMATCHED)
       continue;
@@ -559,7 +559,7 @@ idx_t Match_2HopAll(ctrl_t *ctrl, graph_t *graph, idx_t *perm, idx_t *match,
     for (j=xadj[i]; j<xadj[i+1]; j++)
       mark[adjncy[j]] = i;
 
-    for (pk=pi+1; pk<ncand; pk++) {
+    for (pk=pi+1; pk< (ssize_t)ncand; pk++) {
       k = keys[pk].val;
       if (match[k] != UNMATCHED)
         continue;
@@ -782,7 +782,7 @@ void CreateCoarseGraph(ctrl_t *ctrl, graph_t *graph, idx_t cnvtxs,
   }
 
 
-  ReAdjustMemory(ctrl, graph, cgraph);
+  ReAdjustMemory(graph, cgraph);
 
   IFSET(ctrl->dbglvl, METIS_DBG_TIME, gk_stopcputimer(ctrl->ContractTmr));
 
@@ -912,7 +912,7 @@ void CreateCoarseGraphNoMask(ctrl_t *ctrl, graph_t *graph, idx_t cnvtxs,
     cgraph->invtvwgt[j] = 1.0/(cgraph->tvwgt[j] > 0 ? cgraph->tvwgt[j] : 1);
   }
 
-  ReAdjustMemory(ctrl, graph, cgraph);
+  ReAdjustMemory(graph, cgraph);
 
   IFSET(ctrl->dbglvl, METIS_DBG_TIME, gk_stopcputimer(ctrl->ContractTmr));
 
@@ -1077,7 +1077,7 @@ void CreateCoarseGraphPerm(ctrl_t *ctrl, graph_t *graph, idx_t cnvtxs,
   }
 
 
-  ReAdjustMemory(ctrl, graph, cgraph);
+  ReAdjustMemory(graph, cgraph);
 
   IFSET(ctrl->dbglvl, METIS_DBG_TIME, gk_stopcputimer(ctrl->ContractTmr));
 
@@ -1122,7 +1122,7 @@ graph_t *SetupCoarseGraph(graph_t *graph, idx_t cnvtxs, idx_t dovsize)
     it will lead to significant savings 
  */
 /*************************************************************************/
-void ReAdjustMemory(ctrl_t *ctrl, graph_t *graph, graph_t *cgraph) 
+void ReAdjustMemory(graph_t *graph, graph_t *cgraph) 
 {
   if (cgraph->nedges > 10000 && cgraph->nedges < 0.9*graph->nedges) {
     cgraph->adjncy = irealloc(cgraph->adjncy, cgraph->nedges, "ReAdjustMemory: adjncy");
